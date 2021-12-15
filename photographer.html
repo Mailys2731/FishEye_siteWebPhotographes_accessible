@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
+    <title>Fisheye - photographe </title>
+  </head>
+  <body>
+    <header>
+      <img src="assets/images/logo.png" class="logo" />
+    </header>
+    <main id="main">
+      <section class="photograph-header">
+        <div>
+          <h1>Name</h1>
+          <h2>Location</h2>
+          <p>citation</p>
+        </div>
+        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+        <img src="#">
+      </section>
+    </main>
+    <div id="contact_modal">
+			<div class="modal">
+				<header>
+          <h2>Contactez-moi</h2>
+          <img src="assets/icons/close.svg" onclick="closeModal()" />
+        </header>
+				<form  id="form" method="get" onsubmit="return validate(event)">
+					<div class="formData" data-error="" data-error-visible="false">
+						<label>Prénom</label>
+						<input id="first" />
+					</div>
+          <div class="formData" data-error="" data-error-visible="false">
+						<label>Nom</label>
+						<input  id="last" />
+					</div>
+          <div class="formData" data-error="" data-error-visible="false">
+						<label>Email</label>
+						<input  id="email" />
+					</div>
+          <div class="formData" data-error="" data-error-visible="false">
+						<label>Message</label>
+						<input id="message"/>
+					</div>
+          <button class="contact_button" type="submit">Envoyer</button>
+				</form>
+			</div>
+		</div>
+    <script src="scripts/factories/Photographer.js"></script>
+    <script src="scripts/pages/photographer.js"></script>
+    <script src="/scripts/utils/contactForm.js"></script>
+  </body>
+</html>
