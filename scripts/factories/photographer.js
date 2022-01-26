@@ -29,7 +29,10 @@ function photographerFactory(data) {
         userCardBox.appendChild(taglineBox);
         userCardBox.appendChild(priceBox);
         boxImg.appendChild(img)
+
+        console.log(localStorage)
+
         return (article);
     }
-    return { name, picture, getUserCardDOM }
+    return { picture, getUserCardDOM }
 }

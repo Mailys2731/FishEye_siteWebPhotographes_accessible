@@ -1,56 +1,105 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <meta charset="utf-8">
-    <link rel="icon" type="image/png" href="assets/favicon.png">
-    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
-    <title>Fisheye - photographe </title>
-  </head>
-  <body>
-    <header>
-      <img src="assets/images/logo.png" class="logo" />
-    </header>
-    <main id="main">
-      <section class="photograph-header">
-        <div>
-          <h1>Name</h1>
-          <h2>Location</h2>
-          <p>citation</p>
-        </div>
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
-        <img src="#">
-      </section>
-    </main>
+
+<head>
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
+  <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
+  <title>Fisheye - photographe </title>
+  <script src="https://kit.fontawesome.com/977411349e.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <header>
+    <a href="./index.html" class="logo">
+      <img src="assets/images/logo.png" />
+    </a>
+  </header>
+  <main id="main">
+    <section class="photograph-header">
+      <div class="photographerText">
+        <h1 id="namePhotographer">Name</h1>
+        <h2 id="locationPhotographer">Location</h2>
+        <p id="citationPhotographer">citation</p>
+      </div>
+      <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+      <img id="picturePhotographer" src="#">
+    </section>
+
     <div id="contact_modal">
-			<div class="modal">
-				<header>
+      <div class="modal">
+        <header>
           <h2>Contactez-moi</h2>
           <img src="assets/icons/close.svg" onclick="closeModal()" />
         </header>
-				<form  id="form" method="get" onsubmit="return validate(event)">
-					<div class="formData" data-error="" data-error-visible="false">
-						<label>Prénom</label>
-						<input id="first" />
-					</div>
+        <form id="form" method="get" onsubmit="return validate(event)">
           <div class="formData" data-error="" data-error-visible="false">
-						<label>Nom</label>
-						<input  id="last" />
-					</div>
+            <label>Prénom</label>
+            <input id="first" />
+          </div>
           <div class="formData" data-error="" data-error-visible="false">
-						<label>Email</label>
-						<input  id="email" />
-					</div>
+            <label>Nom</label>
+            <input id="last" />
+          </div>
           <div class="formData" data-error="" data-error-visible="false">
-						<label>Message</label>
-						<input id="message"/>
-					</div>
+            <label>Email</label>
+            <input id="email" />
+          </div>
+          <div class="formData" data-error="" data-error-visible="false">
+            <label>Message</label>
+            <input id="message" />
+          </div>
           <button class="contact_button" type="submit">Envoyer</button>
-				</form>
-			</div>
-		</div>
-    <script src="scripts/factories/Photographer.js"></script>
-    <script src="scripts/pages/photographer.js"></script>
-    <script src="/scripts/utils/contactForm.js"></script>
-  </body>
+        </form>
+      </div>
+    </div>
+    <section>
+      <div id="boxAbsoluteFilter">
+        <div id="filterBox">
+          <p>Trier par</p>
+          <div id="buttonFilter">
+            <div id=buttonFilterVisible>
+              <a id="popularityFilter">
+                <div>Popularité</div>
+              </a>
+              <a onclick=displayFilter()>
+                <i class="fas fa-angle-down" id="iconFilter"></i>
+              </a>
+            </div>  
+            <div id="displayFilter">
+              <div class="whiteBar"></div>
+              
+              <a id="dateFilter">
+                <div>Date</div>
+              </a>
+              <div class="whiteBar"></div>
+              <a id="titleFilter">
+                <div>Titre</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mediaBox">
+
+      </div>
+      <aside id="likesPriceBox">
+      </aside>
+      <div id="modalMediaBox">
+        <a id="leftModalChange" class="modalChange" href="#"><i class="fas fa-angle-left"></i></a>
+        <div id="modalMedia">
+        </div>
+        <a id="rightModalChange" class="modalChange" href="#"><i class="fas fa-angle-right"></i></a>
+      </div>
+    </section>
+
+
+  </main>
+  <script src="scripts/factories/media.js"></script>
+  <script src="scripts/pages/photographer.js"></script>
+  <script src="/scripts/utils/contactForm.js"></script>
+</body>
+
 </html>

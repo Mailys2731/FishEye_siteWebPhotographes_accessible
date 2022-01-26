@@ -1,4 +1,5 @@
     let rawPhotographers ;
+
     async function getPhotographers() {
         // Penser à remplacer par les données récupérées dans le json
         return fetch("../data/photographers.json")
@@ -34,6 +35,7 @@
         // Récupère les datas des photographes
         await getPhotographers();
         const { photographers } = rawPhotographers
+        
         displayData(photographers);
     };
     
