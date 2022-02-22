@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang=fr>
 
 <head>
   <link href="css/style.css" rel="stylesheet" type="text/css" />
@@ -12,9 +12,9 @@
 </head>
 
 <body>
-  <header>
-    <a href="./index.html" class="logo">
-      <img src="assets/images/logo.png" />
+  <header id="header">
+    <a href="./index.html" class="logoPictureLink">
+      <img src="assets/images/logo.png" alt="FishEye" />
     </a>
   </header>
   <main id="main">
@@ -25,15 +25,15 @@
         <p id="citationPhotographer">citation</p>
       </div>
       <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
-      <img id="picturePhotographer" src="#">
+      <img id="picturePhotographer" alt="Photo de profil du photographe">
     </section>
 
     <div id="contact_modal">
       <div class="modal">
-        <header>
+        <div class="modal-header">
           <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
-        </header>
+          <img src="assets/icons/close.svg" alt="croix" onclick="closeModal()" />
+        </div>
         <form id="form" method="get" onsubmit="return validate(event)">
           <div class="formData" data-error="" data-error-visible="false">
             <label>Prénom</label>
@@ -60,24 +60,21 @@
         <div id="filterBox">
           <p>Trier par</p>
           <div id="buttonFilter">
-            <div id=buttonFilterVisible>
-              <a id="popularityFilter">
-                <div>Popularité</div>
-              </a>
-              <a onclick=displayFilter()>
-                <i class="fas fa-angle-down" id="iconFilter"></i>
-              </a>
-            </div>  
+            <div id="popularityFilter">
+              <a id="filterItem1" class="filterItem">Popularité</a>
+            </div>
+            <a id="displayFilterBox">
+              <span class="fas fa-angle-down" id="iconFilter"></span>
+            </a>
             <div id="displayFilter">
               <div class="whiteBar"></div>
-              
-              <a id="dateFilter">
-                <div>Date</div>
-              </a>
+              <div id="dateFilter">
+                <a id="filterItem2" class="filterItem">Date</a>
+              </div>
               <div class="whiteBar"></div>
-              <a id="titleFilter">
-                <div>Titre</div>
-              </a>
+              <div id="titleFilter">
+                <a id="filterItem3" class="filterItem">Titre</a>
+              </div>
             </div>
           </div>
         </div>
@@ -87,11 +84,14 @@
       </div>
       <aside id="likesPriceBox">
       </aside>
-      <div id="modalMediaBox">
-        <a id="leftModalChange" class="modalChange" href="#"><i class="fas fa-angle-left"></i></a>
-        <div id="modalMedia">
+      <div id="slideshow">
+        <button id="moveLeft"><span class="fas fa-angle-left"></span></button>
+        <button id="closeSlider"><span class="fas fa-times"></span></button>
+        <div id="slideshow-box">
+          <div id="slideshow-container" style="width:50rem">
+          </div>
         </div>
-        <a id="rightModalChange" class="modalChange" href="#"><i class="fas fa-angle-right"></i></a>
+        <button id="moveRight"><span class="fas fa-angle-right"></span></button>
       </div>
     </section>
 

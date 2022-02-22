@@ -15,6 +15,7 @@ function photographerFactory(data) {
         const priceBox = document.createElement( 'p' )
     
         img.setAttribute("src", picture)
+        img.setAttribute("alt", "Photo de profil")
         userCardBox.setAttribute("href", "photographer.html?id=" + id)
 
         h2.textContent = name;

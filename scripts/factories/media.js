@@ -7,8 +7,8 @@ function mediaFactory(data) {
     function getMediaCardDOM(mediaPictureLink, mediaVideoLink) {
 
         const article = document.createElement('article');
-
-        const mediaCardBox = document.createElement('a');
+        const mediaCardBox = document.createElement('div');
+        const linkMediaBox = document.createElement('a');
         const boxMedia = document.createElement('div')
         const img = document.createElement('img');
         const video = document.createElement('video')
@@ -17,22 +17,36 @@ function mediaFactory(data) {
         const likesBox = document.createElement('div')
         const heartLikeLink = document.createElement('a')
         const heartLike = document.createElement('i')
+        const likesBoxText= document.createElement('p')
 
-        mediaCardBox.setAttribute("href", "#")
+        mediaCardBox.setAttribute("class", "mediaCardBox")
+        linkMediaBox.setAttribute("class", "linkMediaBox")
         boxText.setAttribute("class", "boxText")
         heartLikeLink.setAttribute("class", "heartLikeLink")
+        heartLikeLink.style.cursor="pointer"
+        linkMediaBox.style.cursor="pointer"
+
         heartLike.setAttribute("class", "fas fa-heart")
         video.setAttribute("controls", "controls")
-
+        img.alt = title
 
         titleBox.textContent = title;
-        likesBox.textContent = likes;
+        likesBoxText.textContent = likes;
 
+        likesBoxText.id = "likeMedia"+id;
+        heartLikeLink.id= "heartMedia"+id;
+
+
+     
+
+       
         article.appendChild(mediaCardBox)
-        mediaCardBox.appendChild(boxMedia);
+        mediaCardBox.appendChild(linkMediaBox)
+        linkMediaBox.appendChild(boxMedia);
         mediaCardBox.appendChild(boxText);
         boxText.appendChild(titleBox);
         boxText.appendChild(likesBox);
+        likesBox.appendChild(likesBoxText)
         likesBox.appendChild(heartLikeLink)
         heartLikeLink.appendChild(heartLike)
 
@@ -47,7 +61,10 @@ function mediaFactory(data) {
 
 
 
+
         return (article);
     }
     return { getMediaCardDOM }
 }
+
+
