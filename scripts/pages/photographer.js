@@ -35,6 +35,7 @@ const id = getId();
 var selectedName
 var dataPhotographerSelected
 
+
 //Récupère les données concernant le photographe concerné et affiche la section concernant les infos du photographe
 async function getPhotographerSelected() {
 
@@ -61,6 +62,7 @@ async function getPhotographerSelected() {
 
     console.log(selectedName)
 }
+
 
 //Tableau de données utiliser lors de l'application des filtres (popularité, date, titre)
 var dataToFilter
@@ -149,7 +151,6 @@ function displayFilter() {
     }
 }
 
-
 function launchFilter() {
     console.log("je lance launchFilter")
     var filterItems = ""
@@ -165,17 +166,24 @@ function launchFilter() {
                 titleFilterAction()
             }
 
-            else  {
+            else {
                 popularityFilterAction()
             }
 
         })
+        filterItem.addEventListener("keydown", function (event) {
+            if ((event.key == "Enter" && filterItem.textContent == "Date")) {
+                dateFilterAction()
+            }
+            else if ((event.key == "Enter" && filterItem.textContent == "Titre")) {
+                titleFilterAction()
+            }
+            else if ((event.key == "Enter" && filterItem.textContent == "Popularité")) {
+                popularityFilterAction()
+            }
+        })
     })
-
-
 }
-
-
 
 function popularityFilterAction() {
     dataToFilter = popularyFilter()
@@ -186,10 +194,7 @@ function popularityFilterAction() {
     filterItem2.textContent = "Date"
     filterItem3.textContent = "Titre"
     console.log("fonction popularity")
-
-
 }
-
 
 function dateFilterAction() {
     dataToFilter = dateFilter()
@@ -200,40 +205,29 @@ function dateFilterAction() {
     filterItem2.textContent = "Popularité"
     filterItem3.textContent = "Titre"
     console.log("fonction date")
-
-
-
 }
-
-
 
 function titleFilterAction() {
     dataToFilter = titleFilter()
     displayMedia()
-
     boxDisplayFilter.style.display = "none"
     iconFilter.style.transform = "rotate(0deg)"
     filterItem1.textContent = "Titre"
     filterItem2.textContent = "Popularité"
     filterItem3.textContent = "Date"
     console.log("fonction titre")
-
-
-
 }
 
 function popularyFilter() {
     return dataToFilter.sort(function (a, b) {
         return b.likes - a.likes
     })
-
 }
 
 function dateFilter() {
     return dataToFilter.sort(function (a, b) {
         return new Date(b.date) - new Date(a.date);
     })
-
 }
 
 function titleFilter() {
@@ -242,8 +236,14 @@ function titleFilter() {
         if (a.title > b.title) { return 1; }
         return 0;
     })
-
 }
+
+document.getElementById("displayFilterBox").addEventListener("keydown", function (event) {
+    if ((event.key == "Enter")) {
+        displayFilter()
+    }
+})
+
 
 ///////LIKES AND PRICE ASIDE///////////////////////////////////////////////////////////////////
 
@@ -259,7 +259,7 @@ function likesSum() {
 function LikesPriceAside() {
     likesSum()
     let boxAside = document.getElementById("likesPriceBox")
-    boxAside.innerHTML= ""
+    boxAside.innerHTML = ""
     let likesBox = document.createElement("div")
     likesBox.setAttribute("id", "likesBox")
     let likes = document.createElement("p")
@@ -274,53 +274,44 @@ function LikesPriceAside() {
     likesBox.appendChild(likes)
     likesBox.appendChild(iconHeart)
     boxAside.appendChild(price)
-
 }
 
 //////////////LIKE MEDIA/////////////////////////////////////////////////////////////////////
 
+
 document.getElementById(`heartMedia ${idMedia}`)
+var like = 0
 
 function likeMedia() {
     var likeLinks = document.querySelectorAll(".heartLikeLink")
     likeLinks.forEach((link) => {
         link.addEventListener("click", function () {
+
             var linkIdNumbers = link.id.slice(10)
             var addLinkHere = dataMediaPhotographer.find(
                 (media) => (media.id == linkIdNumbers)
             )
             console.log(addLinkHere.likes)
-            addLinkHere.likes = addLinkHere.likes += 1
-            console.log(addLinkHere.likes)
-            displayMedia()
-            LikesPriceAside()
+            if (like == 0) {
+                addLinkHere.likes = addLinkHere.likes += 1
+                displayMedia()
+                LikesPriceAside()
+                return like = 1
+            }
+            else if (like == 1) {
+                addLinkHere.likes = addLinkHere.likes -= 1
+                displayMedia()
+                LikesPriceAside()
+                return like = 0
+
+            }
+            
+            console.log(addLinkHere.likes)  
+
         })
-
+       
     })
-
-
-
-
 }
-
-/*dataPhotographerSelected = dataPhotographers.find(
-    (photographer) => photographer.id == id
-)
-
-let like = 0
-
-    if (like == "" || like == 0) {
-        like += 1;
-
-        console.log(like)
-    }
-
-    else {
-        like = 0;
-        likesBoxText -= 1
-        console.log(like)
-    }
-*/
 
 ////////////////////////////SLIDER////////////////////////////////////////
 
@@ -339,7 +330,7 @@ function displayMediaSlider(dataSlider) {
         if (media.type == "image") {
             mediaBox = document.createElement("img")
             let titleBox = document.createElement("p")
-             mediaTitleBox.appendChild(mediaBox)
+            mediaTitleBox.appendChild(mediaBox)
             mediaTitleBox.appendChild(titleBox)
             mediaBox.src = url
             titleBox.textContent = alt
@@ -370,45 +361,32 @@ function globalLinkSlider() {
             console.log(i)
             document.getElementById("slideshow").style.display = "flex"
             mediaQueriesWidth()
-            console.log(i*multiplier)
-            initial = i*multiplier
+            console.log(i * multiplier)
+            initial = i * multiplier
             document.getElementById("slideshow-container").style.transform = "translateX(-" + initial + "rem)"
-            
+
         }, false);
+        linkSlider[i].addEventListener("keydown", function (event) {
+            if (event.key == "Enter") {
+                document.getElementById("slideshow").style.display = "flex"
+                mediaQueriesWidth()
+                console.log(i * multiplier)
+                initial = i * multiplier
+                document.getElementById("slideshow-container").style.transform = "translateX(-" + initial + "rem)"
+
+            }
+        })
     }
 }
 
-/* 
-
-var likeLinks = document.querySelectorAll(".heartLikeLink")
-    likeLinks.forEach((link) => {
-        link.addEventListener("click", function () {
-            var linkIdNumbers = link.id.slice(10)
-            var addLinkHere = dataMediaPhotographer.find(
-                (media) => (media.id == linkIdNumbers)
-            )
-            console.log(addLinkHere.likes)
-            addLinkHere.likes = addLinkHere.likes += 1
-            console.log(addLinkHere.likes)
-            displayMedia()
-        })
-
-    })
-
-
-
-*/
-
 var amount = ""
-var multiplier =""
+var multiplier = ""
 
 function mediaQueriesWidth() {
     if (window.matchMedia("(max-width: 765px)").matches) {
-        /* La largeur minimum de l'affichage est 600 px inclus */
-        multiplier = 10
-        amount = 10
+        multiplier = 16
+        amount = 16
     } else {
-        /* L'affichage est inférieur à 600px de large */
         multiplier = 50
         amount = 50
     }
@@ -422,7 +400,9 @@ function mediaQueriesWidth() {
 var initial = 0;
 
 
-document.getElementById("moveRight").addEventListener("click", function () {
+document.getElementById("moveRight").addEventListener("click", moveSliderRight)
+
+function moveSliderRight() {
     console.log(initial)
     mediaQueriesWidth()
     if (initial < (mediaSlider.length - 1) * multiplier) {
@@ -435,10 +415,12 @@ document.getElementById("moveRight").addEventListener("click", function () {
         document.getElementById("slideshow-container").style.transform = "translateX(-" + initial + "rem)"
 
     }
-})
+}
 
 
-document.getElementById("moveLeft").addEventListener("click", function () {
+document.getElementById("moveLeft").addEventListener("click", moveSliderLeft)
+
+function moveSliderLeft() {
     console.log(initial)
     mediaQueriesWidth()
     if (initial > 0) {
@@ -450,7 +432,25 @@ document.getElementById("moveLeft").addEventListener("click", function () {
     if (initial >= 0) {
         document.getElementById("slideshow-container").style.transform = "translateX(-" + initial + "rem)"
     }
-})
+}
+
+window.addEventListener("keydown", function (event) {
+    if ((event.key == "ArrowRight") && (document.getElementById("slideshow").style.display == "flex")) {
+        moveSliderRight()
+    } else if (event.key == "ArrowLeft" && (document.getElementById("slideshow").style.display == "flex")) {
+        moveSliderLeft()
+    } else if (event.key == "Escape" && (document.getElementById("slideshow").style.display == "flex")) {
+        closeSlider()
+    } else if (event.key == "Escape" && (document.getElementById("contact_modal").style.display == "block")) {
+        closeModal()
+    } else if (event.key == "Enter" && (document.getElementById("contact_modal").style.display == "block")) {
+        validate(event)
+    }
+
+
+});
+
+
 
 
 
@@ -465,35 +465,15 @@ function closeSlider() {
 ////////////////////////////////////////////
 async function init() {
     // Récupère les datas des photographes
-    await getPhotographers();
-    getPhotographerSelected();
+    await getPhotographers()
+    getPhotographerSelected()
     displayMedia()
     popularityFilterAction()
     LikesPriceAside()
     launchFilter()
-
+    namePhotographerContact = document.getElementById("namePhotographerContact")
+    namePhotographerContact.textContent = selectedName
 }
 
 
 init();
-
-//mettre un z index pour l'ouverture des filtres et le filtre popularité?
-
-/*mediaContainer.style.width = `${dataSlider.length * 100}%`
-    console.log(`${dataSlider.length * 100}%`)
-    dataSlider.forEach((data) => {
-        console.log(data)
-        let slideMedia=""
-        if(data.type == "video"){
-            slideMedia = document.createElement("video")
-            slideMedia.src= data.url
-            slideMedia.setAttribute("controls", "controls")
-        }
-        else{
-            slideMedia = document.createElement("img")
-            slideMedia.src= data.url
-        }
-        slideMedia.setAttribute("class", "slideMedia")
-        modalMedia.appendChild(mediaContainer)
-        mediaContainer.appendChild(slideMedia)
-    })*/

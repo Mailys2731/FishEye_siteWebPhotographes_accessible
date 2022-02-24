@@ -9,9 +9,7 @@
         })
 
         .then(function (photographers) {
-            console.log(photographers)
             rawPhotographers = photographers
-            console.log(rawPhotographers)
         })
 
         //gestion des erreurs

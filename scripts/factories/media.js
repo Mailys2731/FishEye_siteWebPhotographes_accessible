@@ -21,13 +21,14 @@ function mediaFactory(data) {
 
         mediaCardBox.setAttribute("class", "mediaCardBox")
         linkMediaBox.setAttribute("class", "linkMediaBox")
+        linkMediaBox.setAttribute("tabindex", "7")
         boxText.setAttribute("class", "boxText")
         heartLikeLink.setAttribute("class", "heartLikeLink")
+        heartLikeLink.setAttribute("tabindex", "8")
         heartLikeLink.style.cursor="pointer"
         linkMediaBox.style.cursor="pointer"
 
         heartLike.setAttribute("class", "fas fa-heart")
-        video.setAttribute("controls", "controls")
         img.alt = title
 
         titleBox.textContent = title;
@@ -36,10 +37,6 @@ function mediaFactory(data) {
         likesBoxText.id = "likeMedia"+id;
         heartLikeLink.id= "heartMedia"+id;
 
-
-     
-
-       
         article.appendChild(mediaCardBox)
         mediaCardBox.appendChild(linkMediaBox)
         linkMediaBox.appendChild(boxMedia);
@@ -49,6 +46,11 @@ function mediaFactory(data) {
         likesBox.appendChild(likesBoxText)
         likesBox.appendChild(heartLikeLink)
         heartLikeLink.appendChild(heartLike)
+        const videoIconBox = document.createElement("div")
+        const videoIcon = document.createElement("i")
+        videoIcon.setAttribute("class", "fas fa-video")
+        videoIconBox.setAttribute("class", "videoIconBox")
+        boxMedia.setAttribute("class", "boxMedia")
 
         if (image) {
             boxMedia.appendChild(img)
@@ -56,8 +58,10 @@ function mediaFactory(data) {
         } else if (video) {
             boxMedia.appendChild(video)
             video.setAttribute("src", mediaVideoLink)
+           videoIconBox.style.display="flex"
         }
-
+        videoIconBox.appendChild(videoIcon)
+        boxMedia.appendChild(videoIconBox)
 
 
 
