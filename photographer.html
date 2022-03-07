@@ -14,7 +14,7 @@
 <body>
   <header id="header">
     <a href="./index.html" class="logoPictureLink" tabindex="1">
-      <img src="assets/images/logo.png" alt="FishEye Home Page" />
+      <img src="assets/images/logo.png" alt="Page d'accueil FishEye" />
     </a>
   </header>
   <main id="main">
@@ -24,14 +24,15 @@
         <h2 id="locationPhotographer">Location</h2>
         <p id="citationPhotographer">citation</p>
       </div>
-      <button class="contact_button" onclick="displayModal()" tabindex="2" aria-label="contact me">Contactez-moi</button>
-      <img id="picturePhotographer" alt="Photo de profil du photographe">
+      <button class="contact_button" onclick="displayModal()" tabindex="2"
+        aria-label="contactez Moi">Contactez-moi</button>
+      <img id="picturePhotographer" alt="Photo de profil du photographe" src="#"/>
     </section>
 
     <div id="contact_modal">
       <div class="modal">
         <div class="modal-header">
-            <h2>Contactez-moi</h2>
+          <h2>Contactez-moi</h2>
           <img src="assets/icons/close.svg" alt="croix" onclick="closeModal()" />
         </div>
         <p id="namePhotographerContact"></p>
@@ -39,21 +40,21 @@
         <form id="form" method="get" onsubmit="return validate(event)">
           <div class="formData" data-error="" data-error-visible="false">
             <label for="first">Prénom</label>
-            <input id="first" />
+            <input id="first" tabindex="2" />
           </div>
           <div class="formData" data-error="" data-error-visible="false">
             <label for="last">Nom</label>
-            <input id="last" />
+            <input id="last" tabindex="2" />
           </div>
           <div class="formData" data-error="" data-error-visible="false">
             <label for="email">Email</label>
-            <input id="email" />
+            <input id="email" tabindex="2" />
           </div>
           <div class="formData" data-error="" data-error-visible="false">
             <label for="message">Message</label>
-            <textarea type="text" minlength="5" id="message" required></textarea>
+            <textarea minlength="5" id="message" required tabindex="2"></textarea>
           </div>
-          <button class="contact_button" type="submit">Envoyer</button>
+          <button class="contact_button" type="submit" tabindex="2">Envoyer</button>
         </form>
       </div>
     </div>
@@ -61,21 +62,25 @@
       <div id="boxAbsoluteFilter">
         <div id="filterBox">
           <p>Trier par</p>
-          <div id="buttonFilter">
+          <div id="buttonFilter" role="listbox" aria-activedescendant="filterItem1">
             <div id="popularityFilter">
-              <a id="filterItem1" class="filterItem" tabindex="4" role="listbox" aria-activedescendant>Popularité</a>
+              <a id="filterItem1" class="filterItem" tabindex="4" 
+                aria-selected="true" role="option">Popularité</a>
             </div>
-            <a id="displayFilterBox" aria-label="Order by" role="button" aria-haspopup="listbox" aria-expanded tabindex="3">
+            <a id="displayFilterBox" aria-label="Order by" role="button" aria-haspopup="listbox" aria-expanded="false"
+              tabindex="3">
               <span class="fas fa-angle-down" id="iconFilter"></span>
             </a>
             <div id="displayFilter">
               <div class="whiteBar"></div>
               <div id="dateFilter">
-                <a id="filterItem2" class="filterItem" tabindex="5" role="listbox" aria-activedescendant>Date</a>
+                <a id="filterItem2" class="filterItem" tabindex="5" role="option" 
+                  aria-selected="false">Date</a>
               </div>
               <div class="whiteBar"></div>
               <div id="titleFilter">
-                <a id="filterItem3" class="filterItem" tabindex="6" role="listbox" aria-activedescendant>Titre</a>
+                <a id="filterItem3" class="filterItem" tabindex="6" role="option" 
+                  aria-selected="false">Titre</a>
               </div>
             </div>
           </div>
@@ -85,17 +90,19 @@
       </div>
       <aside id="likesPriceBox">
       </aside>
-      <div id="slideshow">
-        <button id="moveLeft" aria-label="move left button" title="move left button"><span
-            class="fas fa-angle-left"></span></button>
-        <button id="closeSlider" aria-label="close slider button" title="close slider button"><span
-            class="fas fa-times"></span></button>
-        <div id="slideshow-box">
-          <div id="slideshow-container" style="width:50rem">
+      <div id="backgroundSlideshow">
+        <div id="slideshow">
+          <button id="moveLeft" aria-label="move left button" title="move left button"><span
+              class="fas fa-angle-left"></span></button>
+          <button id="closeSlider" aria-label="close slider button" title="close slider button"><span
+              class="fas fa-times"></span></button>
+          <div id="slideshow-box">
+            <div id="slideshow-container" style="width:50rem">
+            </div>
           </div>
+          <button id="moveRight" aria-label="move right button" title="move right button"><span
+              class="fas fa-angle-right"></span></button>
         </div>
-        <button id="moveRight" aria-label="move right button" title="move right button"><span
-            class="fas fa-angle-right"></span></button>
       </div>
     </section>
 

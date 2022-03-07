@@ -1,7 +1,6 @@
     let rawPhotographers ;
 
     async function getPhotographers() {
-        // Penser à remplacer par les données récupérées dans le json
         return fetch("../data/photographers.json")
 
         .then(function (httpBodyResponse) {
@@ -24,9 +23,9 @@
 
         photographers.forEach((photographer) => {
             //eslint-disable-next-line
-            const photographerModel = photographerFactory(photographer);
-            const userCardDOM = photographerModel.getUserCardDOM();
-            photographersSection.appendChild(userCardDOM);
+            const photographerFactory = new PhotographerFactory(photographer);
+            const displayPhotographer = photographerFactory.displayPhotographer();
+            photographersSection.appendChild(displayPhotographer);
         });
     }
 

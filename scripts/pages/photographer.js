@@ -9,9 +9,7 @@ async function getPhotographers() {
         })
 
         .then(function (photographers) {
-            console.log(photographers)
             rawPhotographers = photographers
-            console.log(rawPhotographers)
         })
 
         //gestion des erreurs
@@ -26,14 +24,13 @@ const getId = () => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const id = urlParams.get('id');
-    console.log(id);
     return id;
 }
 
 const id = getId();
 
-var selectedName
-var dataPhotographerSelected
+let selectedName
+let dataPhotographerSelected
 
 
 //Récupère les données concernant le photographe concerné et affiche la section concernant les infos du photographe
@@ -45,40 +42,39 @@ async function getPhotographerSelected() {
         (photographer) => photographer.id == id
     )
 
-    var namePhotographer = document.getElementById('namePhotographer')
+    let namePhotographer = document.getElementById('namePhotographer')
     namePhotographer.textContent = dataPhotographerSelected.name
     selectedName = dataPhotographerSelected.name
-    var locationPhotographer = document.getElementById('locationPhotographer')
+    let locationPhotographer = document.getElementById('locationPhotographer')
     locationPhotographer.textContent = dataPhotographerSelected.city
 
-    var citationPhotographer = document.getElementById('citationPhotographer')
+    let citationPhotographer = document.getElementById('citationPhotographer')
     citationPhotographer.textContent = dataPhotographerSelected.tagline
     const portrait = dataPhotographerSelected.portrait
     const picture = `assets/photographers/${portrait}`;
 
-    var picturePhotographer = document.getElementById('picturePhotographer')
+    let picturePhotographer = document.getElementById('picturePhotographer')
     picturePhotographer.src = picture
-    picturePhotographer.alt = "Photo de profil du photographe"
+    picturePhotographer.alt = dataPhotographerSelected.name
 
-    console.log(selectedName)
 }
 
 
 //Tableau de données utiliser lors de l'application des filtres (popularité, date, titre)
-var dataToFilter
+let dataToFilter
 
 //Tableau de données relatif à l'affichage du carousel
 
-var idMedia = []
+let idMedia = []
 
-var dataMediaPhotographer = []
+let dataMediaPhotographer = []
 
 //////////////////////////DISPLAY MEDIA////////////////////////////////////////////////////////////
 
-var mediaSlider = []
+let mediaSlider = []
 //Affichage des médias du photographe
-async function displayMedia() {
-    var dataSlider = []
+async function displayAllMedia() {
+    let dataSlider = []
     const mediasPhotographers = rawPhotographers.media;
     //Récupération des médias dont l'id est celui du photographe
     dataMediaPhotographer = mediasPhotographers.filter(
@@ -89,16 +85,15 @@ async function displayMedia() {
         dataToFilter = dataMediaPhotographer
     }
     //Récupération du prénom pour générer les url des médias
-    var nameMediaFile = selectedName.split(' ')
+    let nameMediaFile = selectedName.split(' ')
     nameMediaFile[0] = nameMediaFile[0].replace('-', ' ')
-    console.log(nameMediaFile[0])
 
     //Attribution des données au mediaFactory avec une boucle forEach
     const mediasSection = document.querySelector(".mediaBox");
     mediasSection.innerHTML = "";
     dataToFilter.forEach((media, index) => {
         //eslint-disable-next-line
-        const mediaModel = mediaFactory(media);
+        const mediaModel = new MediaFactory(media, nameMediaFile[0]);
         idMedia.push(media.id)
         const mediaPictureLink = `assets/media/${nameMediaFile[0]}/${media.image}`
         const mediaVideoLink = `assets/media/${nameMediaFile[0]}/${media.video}`
@@ -112,9 +107,11 @@ async function displayMedia() {
             dataSlider.push({ url: mediaVideoLink, title: media.title, type: "video", index: index, id: media.id })
         }
         mediaSlider = dataSlider
+        let like =0
 
-        const mediaCardDOM = mediaModel.getMediaCardDOM(mediaPictureLink, mediaVideoLink);
-        mediasSection.appendChild(mediaCardDOM);
+        mediaModel.displayMedia()
+        mediaModel.addLike()
+       
 
     })
 
@@ -139,12 +136,10 @@ let iconFilter = document.getElementById("iconFilter")
 function displayFilter() {
     if (boxDisplayFilter.style.display == "none" || boxDisplayFilter.style.display == "") {
         boxDisplayFilter.style.display = "block"
-        console.log('ouvert')
         iconFilter.style.transform = "rotate(180deg)"
     }
     else {
         boxDisplayFilter.style.display = "none"
-        console.log('fermer')
         if (iconFilter.style.transform == "rotate(180deg)") {
             iconFilter.style.transform = "rotate(0deg)"
         }
@@ -152,8 +147,7 @@ function displayFilter() {
 }
 
 function launchFilter() {
-    console.log("je lance launchFilter")
-    var filterItems = ""
+    let filterItems = ""
     filterItems = document.querySelectorAll(".filterItem")
     filterItems.forEach((filterItem) => {
         filterItem.addEventListener("click", function () {
@@ -187,35 +181,32 @@ function launchFilter() {
 
 function popularityFilterAction() {
     dataToFilter = popularyFilter()
-    displayMedia()
+    displayAllMedia()
     boxDisplayFilter.style.display = "none"
     iconFilter.style.transform = "rotate(0deg)"
     filterItem1.textContent = "Popularité"
     filterItem2.textContent = "Date"
     filterItem3.textContent = "Titre"
-    console.log("fonction popularity")
 }
 
 function dateFilterAction() {
     dataToFilter = dateFilter()
-    displayMedia()
+    displayAllMedia()
     boxDisplayFilter.style.display = "none"
     iconFilter.style.transform = "rotate(0deg)"
     filterItem1.textContent = "Date"
     filterItem2.textContent = "Popularité"
     filterItem3.textContent = "Titre"
-    console.log("fonction date")
 }
 
 function titleFilterAction() {
     dataToFilter = titleFilter()
-    displayMedia()
+    displayAllMedia()
     boxDisplayFilter.style.display = "none"
     iconFilter.style.transform = "rotate(0deg)"
     filterItem1.textContent = "Titre"
     filterItem2.textContent = "Popularité"
     filterItem3.textContent = "Date"
-    console.log("fonction titre")
 }
 
 function popularyFilter() {
@@ -280,34 +271,50 @@ function LikesPriceAside() {
 
 
 document.getElementById(`heartMedia ${idMedia}`)
-var like = 0
+let like = 0
 
 function likeMedia() {
-    var likeLinks = document.querySelectorAll(".heartLikeLink")
+    let likeLinks = document.querySelectorAll(".heartLikeLink")
     likeLinks.forEach((link) => {
         link.addEventListener("click", function () {
 
-            var linkIdNumbers = link.id.slice(10)
-            var addLinkHere = dataMediaPhotographer.find(
+            let linkIdNumbers = link.id.slice(10)
+            let addLinkHere = dataMediaPhotographer.find(
                 (media) => (media.id == linkIdNumbers)
             )
-            console.log(addLinkHere.likes)
             if (like == 0) {
                 addLinkHere.likes = addLinkHere.likes += 1
-                displayMedia()
+                displayAllMedia()
                 LikesPriceAside()
                 return like = 1
             }
             else if (like == 1) {
                 addLinkHere.likes = addLinkHere.likes -= 1
-                displayMedia()
+                displayAllMedia()
                 LikesPriceAside()
                 return like = 0
+            }
+        })
+        link.addEventListener("keydown", function (event) {
+            if (event.key == "Enter") {
+                let linkIdNumbers = link.id.slice(10)
+            let addLinkHere = dataMediaPhotographer.find(
+                (media) => (media.id == linkIdNumbers)
+            )
+            if (like == 0) {
+                addLinkHere.likes = addLinkHere.likes += 1
+                displayAllMedia()
+                LikesPriceAside()
+                return like = 1
+            }
+            else if (like == 1) {
+                addLinkHere.likes = addLinkHere.likes -= 1
+                displayAllMedia()
+                LikesPriceAside()
+                return like = 0
+            }
 
             }
-            
-            console.log(addLinkHere.likes)  
-
         })
        
     })
@@ -316,15 +323,13 @@ function likeMedia() {
 ////////////////////////////SLIDER////////////////////////////////////////
 
 function displayMediaSlider(dataSlider) {
-    console.log("hey slider")
     let mediaContainer = document.getElementById("slideshow-container")
-    console.log(dataSlider)
     mediaContainer.innerHTML = ""
     dataSlider.forEach((media) => {
         let url = media.url
         let alt = media.title
         let mediaTitleBox = document.createElement("div")
-        mediaTitleBox.setAttribute("id", "mediaTitleBox")
+        mediaTitleBox.setAttribute("class", "mediaTitleBox")
         mediaContainer.appendChild(mediaTitleBox)
         let mediaBox
         if (media.type == "image") {
@@ -350,7 +355,7 @@ function displayMediaSlider(dataSlider) {
         mediaBox.setAttribute("alt", alt)
     })
     globalLinkSlider()
-    likeMedia()
+    
 }
 
 function globalLinkSlider() {
@@ -358,29 +363,27 @@ function globalLinkSlider() {
     console.log(linkSlider)
     for (let i = 0; i < linkSlider.length; i++) {
         linkSlider[i].addEventListener("click", function () {
-            console.log(i)
-            document.getElementById("slideshow").style.display = "flex"
+            document.getElementById("backgroundSlideshow").style.display = "flex"
             mediaQueriesWidth()
-            console.log(i * multiplier)
             initial = i * multiplier
             document.getElementById("slideshow-container").style.transform = "translateX(-" + initial + "rem)"
 
         }, false);
         linkSlider[i].addEventListener("keydown", function (event) {
             if (event.key == "Enter") {
-                document.getElementById("slideshow").style.display = "flex"
+                document.getElementById("backgroundSlideshow").style.display = "flex"
                 mediaQueriesWidth()
-                console.log(i * multiplier)
                 initial = i * multiplier
                 document.getElementById("slideshow-container").style.transform = "translateX(-" + initial + "rem)"
 
             }
         })
     }
+
 }
 
-var amount = ""
-var multiplier = ""
+let amount = ""
+let multiplier = ""
 
 function mediaQueriesWidth() {
     if (window.matchMedia("(max-width: 765px)").matches) {
@@ -397,13 +400,12 @@ function mediaQueriesWidth() {
 
 
 
-var initial = 0;
+let initial = 0;
 
 
 document.getElementById("moveRight").addEventListener("click", moveSliderRight)
 
 function moveSliderRight() {
-    console.log(initial)
     mediaQueriesWidth()
     if (initial < (mediaSlider.length - 1) * multiplier) {
         initial += amount;
@@ -421,7 +423,6 @@ function moveSliderRight() {
 document.getElementById("moveLeft").addEventListener("click", moveSliderLeft)
 
 function moveSliderLeft() {
-    console.log(initial)
     mediaQueriesWidth()
     if (initial > 0) {
         initial -= amount;
@@ -435,11 +436,11 @@ function moveSliderLeft() {
 }
 
 window.addEventListener("keydown", function (event) {
-    if ((event.key == "ArrowRight") && (document.getElementById("slideshow").style.display == "flex")) {
+    if ((event.key == "ArrowRight") && (document.getElementById("backgroundSlideshow").style.display == "flex")) {
         moveSliderRight()
-    } else if (event.key == "ArrowLeft" && (document.getElementById("slideshow").style.display == "flex")) {
+    } else if (event.key == "ArrowLeft" && (document.getElementById("backgroundSlideshow").style.display == "flex")) {
         moveSliderLeft()
-    } else if (event.key == "Escape" && (document.getElementById("slideshow").style.display == "flex")) {
+    } else if (event.key == "Escape" && (document.getElementById("backgroundSlideshow").style.display == "flex")) {
         closeSlider()
     } else if (event.key == "Escape" && (document.getElementById("contact_modal").style.display == "block")) {
         closeModal()
@@ -457,7 +458,7 @@ window.addEventListener("keydown", function (event) {
 document.getElementById("closeSlider").addEventListener("click", closeSlider)
 
 function closeSlider() {
-    document.getElementById("slideshow").style.display = "none"
+    document.getElementById("backgroundSlideshow").style.display = "none"
 }
 
 
@@ -467,7 +468,7 @@ async function init() {
     // Récupère les datas des photographes
     await getPhotographers()
     getPhotographerSelected()
-    displayMedia()
+    displayAllMedia()
     popularityFilterAction()
     LikesPriceAside()
     launchFilter()
