@@ -270,55 +270,6 @@ function LikesPriceAside() {
 //////////////LIKE MEDIA/////////////////////////////////////////////////////////////////////
 
 
-document.getElementById(`heartMedia ${idMedia}`)
-let like = 0
-
-function likeMedia() {
-    let likeLinks = document.querySelectorAll(".heartLikeLink")
-    likeLinks.forEach((link) => {
-        link.addEventListener("click", function () {
-
-            let linkIdNumbers = link.id.slice(10)
-            let addLinkHere = dataMediaPhotographer.find(
-                (media) => (media.id == linkIdNumbers)
-            )
-            if (like == 0) {
-                addLinkHere.likes = addLinkHere.likes += 1
-                displayAllMedia()
-                LikesPriceAside()
-                return like = 1
-            }
-            else if (like == 1) {
-                addLinkHere.likes = addLinkHere.likes -= 1
-                displayAllMedia()
-                LikesPriceAside()
-                return like = 0
-            }
-        })
-        link.addEventListener("keydown", function (event) {
-            if (event.key == "Enter") {
-                let linkIdNumbers = link.id.slice(10)
-            let addLinkHere = dataMediaPhotographer.find(
-                (media) => (media.id == linkIdNumbers)
-            )
-            if (like == 0) {
-                addLinkHere.likes = addLinkHere.likes += 1
-                displayAllMedia()
-                LikesPriceAside()
-                return like = 1
-            }
-            else if (like == 1) {
-                addLinkHere.likes = addLinkHere.likes -= 1
-                displayAllMedia()
-                LikesPriceAside()
-                return like = 0
-            }
-
-            }
-        })
-       
-    })
-}
 
 ////////////////////////////SLIDER////////////////////////////////////////
 

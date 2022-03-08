@@ -30,7 +30,7 @@ class Media {
                         <h3>${this._title}</h3>
                         <div>
                             <p id=${"likeMedia" + this._id}>${this._likes}</p>
-                            <a class="heartLikeLink" tabIndex="7" id="${"heartMedia" + this._id}"><i class="fas fa-heart"></i></a>
+                            <a class="heartLikeLink" aria-label="bouton j'aime" tabIndex="7" id="${"heartMedia" + this._id}"><i class="fas fa-heart"></i></a>
                         </div>
                     </div>
                 </div>
